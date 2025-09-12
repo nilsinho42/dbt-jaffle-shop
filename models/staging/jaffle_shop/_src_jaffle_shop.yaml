@@ -1,0 +1,38 @@
+version: 2
+
+sources:
+  - name: jaffle_shop
+    config:
+      freshness:
+        warn_after: # warn if no data for last 6 hours
+          count: 12 
+          period: hour
+        error_after: # error if no data for last 12 hours
+          count: 1
+          period: day # minute, hour or day
+        loaded_at_field: _etl_loaded_at # the column to be used to check last loaded time 
+    database: raw  
+    schema: jaffle_shop  
+    description: A clone of a Postgres applicaiton database.
+    tables:
+      - name: customers
+        description: Raw customer data.
+        freshness: null
+        columns:
+          - name: id
+            description: Primary key for customer data
+            data_tests:
+              - unique
+              - not_null
+      - name: orders
+        description: Raw orders data.
+        columns:
+          - name: id
+            description: Primary key for orders data
+            data_tests:
+              - unique
+              - not_null
+              
+          
+
+
